@@ -7,5 +7,5 @@ export default (regexStr, ...args) => {
         regexStr.raw.join(``))
         .split(`\n`)
         .map( line => line.replace(/\s|\/\/.*$/g, ``).trim().replace(/@s/g, ` `) )
-        .join(``), flags );
+        .join(``), flags.length ? flags.join(``) : flags );
   }
