@@ -1,5 +1,5 @@
 export default (regexStr, ...args) => {
-    const flags = Array.isArray(args.slice(-1)) ? args.pop().join('') : ``;
+    const flags = args.length && Array.isArray(args.slice(-1)) ? args.pop() : [];
     
     return new RegExp(
       (args.length &&
@@ -7,5 +7,5 @@ export default (regexStr, ...args) => {
         regexStr.raw.join(``))
         .split(`\n`)
         .map( line => line.replace(/\s|\/\/.*$/g, ``).trim().replace(/@s/g, ` `) )
-        .join(``), flags.length ? flags.join(``) : flags );
+        .join(``), flags.join(``) );
   }
