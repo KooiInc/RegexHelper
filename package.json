@@ -1,6 +1,6 @@
 {
-  "name": "regexhelper",
-  "version": "1.0.1",
+  "name": "jsregexphelper",
+  "version": "1.0.2",
   "description": "Helper methods for JS regular expressions",
   "keywords": ["RegEx", "utility"],
   "author": "KooiInc",
