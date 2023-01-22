@@ -1,0 +1,17 @@
+{
+  "name": "regexhelper",
+  "version": "1.0.0",
+  "description": "Helper methods for JS regular expressions",
+  "keywords": ["RegEx", "utility"],
+  "author": "KooiInc",
+  "license": "CCO-1.0",
+  "main": "RegexpCreator.js",
+  "browser": "RegexpCreator.js",
+  "bugs": {
+    "url": "https://github.com/KooiInc/RegExpHelper/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KooiInc/RegExpHelper.git"
+  }
+}
