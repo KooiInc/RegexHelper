@@ -4,8 +4,8 @@ export default (regexStr, ...args) => {
   return new RegExp(
     (args.length &&
       regexStr.raw.reduce( (a, v, i ) => a.concat(args[i-1] || ``).concat(v), ``) ||
-      regexStr.raw.join(``)
-        .split(`\n`)
-        .map( line => line.replace(/\s|\/\/.*$/g, ``).trim().replace(/(@s!)/g, ` `) )
-        .join(``)), flags)
+      regexStr.raw.join(``))
+      .split(`\n`)
+      .map( line => line.replace(/\s|\/\/.*$/g, ``).trim().replace(/(@s!)/g, ` `) )
+      .join(``), flags);
 }
