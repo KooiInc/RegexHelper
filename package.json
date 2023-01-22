@@ -5,8 +5,8 @@
   "keywords": ["RegEx", "utility"],
   "author": "KooiInc",
   "license": "CCO-1.0",
-  "main": "RegexpCreator.js",
-  "browser": "RegexpCreator.js",
+  "main": "./RegexpCreator.js",
+  "browser": "./RegexpCreator.js",
   "bugs": {
     "url": "https://github.com/KooiInc/RegExpHelper/issues"
   },
