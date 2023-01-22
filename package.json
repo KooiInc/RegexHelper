@@ -4,7 +4,7 @@
   "description": "Helper methods for JS regular expressions",
   "keywords": ["RegEx", "utility"],
   "author": "KooiInc",
-  "license": "CCO-1.0",
+  "license": "GNU",
   "main": "./RegexpCreator.js",
   "browser": "./RegexpCreator.js",
   "bugs": {
