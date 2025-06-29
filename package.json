@@ -1,12 +1,12 @@
 {
   "name": "jsregexphelper",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Helper method for JS regular expressions",
   "keywords": ["RegEx", "utility"],
   "author": "KooiInc",
   "license": "GNU",
   "main": "./RegexpCreator.js",
-  "browser": "./RegexpCreator.js",
+  "sideEffects": false,
   "bugs": {
     "url": "https://github.com/KooiInc/RegExpHelper/issues"
   },
