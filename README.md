@@ -30,14 +30,14 @@ const cleaned = "Hello world /* no comment */\nHello // no world".replace(noComm
 // cleaned => Hello world\nHello
 ```
 
-### flags (modifiers)
+### flags
 A `$RE`-instance is actually a [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). 
 It can be used as a regular expression, but also contains a `flags` method and a getter (`re`) 
 for the actual regular expression value.
 
 Flags can be added using the instance `flags` method 
 `[$RE RegEx instance].flags([flags:string])` 
-or by adding an array of modifiers replacement in the template string
+or by adding an array of flags replacement in the template string
 e.g. `/.*/ ${["g", "u"]}`.
 
 **Notes**
