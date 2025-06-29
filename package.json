@@ -1,7 +1,7 @@
 {
   "name": "jsregexphelper",
-  "version": "1.0.3",
-  "description": "Helper methods for JS regular expressions",
+  "version": "1.0.4",
+  "description": "Helper method for JS regular expressions",
   "keywords": ["RegEx", "utility"],
   "author": "KooiInc",
   "license": "GNU",
