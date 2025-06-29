@@ -1,6 +1,6 @@
 {
   "name": "jsregexphelper",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Helper method for JS regular expressions",
   "keywords": ["RegEx", "utility"],
   "author": "KooiInc",
@@ -10,6 +10,7 @@
   "bugs": {
     "url": "https://github.com/KooiInc/RegExpHelper/issues"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KooiInc/RegExpHelper.git"
