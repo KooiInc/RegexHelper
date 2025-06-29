@@ -6,7 +6,8 @@
 </div>
 
 # RegexHelper
-A module to create a regular expression with comments and whitespace using a [tagged template function]
+A module to create a regular expression with comments and whitespace using a 
+[tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates)
 
 ## Import
 ```javascript
