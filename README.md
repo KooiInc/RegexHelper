@@ -38,7 +38,7 @@ for the actual regular expression value.
 Flags can be added using the instance `flags` method 
 `[$RE RegEx instance].flags([flags:string])` 
 or by adding an Array of flags as last replacement in the template string
-e.g. `/.*/ ${["g", "u"]}`.
+e.g. $RE`[ABZ].+ ${["g", "u"]}`.
 
 **Notes**
 - The replacement value must be the *last* replacement in the template string.
