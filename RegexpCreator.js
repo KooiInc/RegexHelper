@@ -20,12 +20,6 @@ function RegExpFactory() {
   }
   
   function createInstance(regExp) {
-    const getTrap = {
-      get(target, key) {
-        return Reflect.get(target, key) ?? Reflect.get(regExp, key)?.bind(regExp);
-      },
-    };
-    
     const instance = new Proxy(Object.defineProperties({}, {
       re: { get() { return regExp; }, enumerable: false},
       toString: { value: () => regExp.toString(), enumerable: false },
@@ -34,9 +28,17 @@ function RegExpFactory() {
           regExp = addFlags(flags, regExp);
           return instance;
         }, enumerable: false },
-    }), getTrap);
+    }), getterTrap(regExp));
     
     return instance;
+  }
+  
+  function getterTrap(regExp) {
+    return {
+      get(target, key) {
+        return Reflect.get(target, key) ?? Reflect.get(regExp, key)?.bind(regExp);
+      },
+    };
   }
   
   function cleanupFlags(flags) {

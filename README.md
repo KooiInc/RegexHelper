@@ -6,7 +6,7 @@
 </div>
 
 # RegexHelper
-A module to create a regular expression with comments and whitespace using a 
+A module to create JS regular expressions with comments and whitespace using a 
 [tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates)
 
 ## Import
@@ -37,11 +37,11 @@ for the actual regular expression value.
 
 Flags can be added using the instance `flags` method 
 `[$RE RegEx instance].flags([flags:string])` 
-or by adding an array of flags replacement in the template string
+or by adding an Array of flags as last replacement in the template string
 e.g. `/.*/ ${["g", "u"]}`.
 
 **Notes**
-- The replacement value has to be the *last* replacement in the template string.
+- The replacement value must be the *last* replacement in the template string.
 - The given flags are checked and cleaned
 
 ### plain spaces
