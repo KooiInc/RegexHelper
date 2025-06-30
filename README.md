@@ -41,7 +41,7 @@ The `[$RE instance].re` getter return the actual RegExp instance.
 
 Flags can be added using the instance `flags` method 
 `[$RE RegEx instance].flags([flags:string])` 
-or by adding an Array of flags as last replacement in the template string
+or (legacy) by adding an Array of flag strings as *last* replacement in the template string
 e.g. ```$RE`[ABZ].+ ${["g", "u"]}` ```.
 
 To ***remove*** all current flags, use `[$RE RegEx instance].flags("-r")`.
