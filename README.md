@@ -50,7 +50,7 @@ e.g. ```$RE`[ABZ].+ ${["g", "u"]}` ```.
 To insert a plain space (so *not* a [whitespace](https://developer.mozilla.org/en-US/docs/Glossary/Whitespace)) use <!32>
 ```javascript
 const hiRE = $RE`
-    Hello<!32>{1,} /* this will be a plain space in the result */
+    Hello<!32> /* <= this will be a plain space in the result */ {1,} 
     .*`.flags(`gi`);
 // hiRE => /Hello {1,}.*/gi 
 const hi = hiRE.test("hello    world!"); 
