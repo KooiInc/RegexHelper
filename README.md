@@ -49,6 +49,9 @@ To ***remove*** all current flags, use `[$RE RegEx instance].flags("-r")`.
 The `flags` method is chainable. So `[$RE RegEx instance].flags("-r").flags("gm")` 
 removes current flags from the instance and re-adds `gm`.
 
+Replacing flags in the instance can be done using `[$RE RegEx instance].flags("-r|[new flags]")` 
+(so remove current flags, then add `[new flags]`). 
+
 **Notes**
 - The replacement value must be the *last* replacement in the template string.
 - The given flags are checked and cleaned

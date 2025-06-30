@@ -48,14 +48,15 @@ function RegExpFactory() {
   }
   
   function cleanupFlags(flags, currentFlags) {
-    currentFlags = currentFlags ?? ``;
+    currentFlags = (currentFlags ?? ``).replace(/^-r\|/, ``);
     flags = currentFlags.concat(flags.constructor === String && flags.length ? flags : ``);
     return [...new Set([...flags])].join(``).replace(/[^dgimsuvy]/g, ``);
   }
   
   function addFlags(flags, re) {
     switch(true) {
-      case flags === `-r`: return new RegExp(re.source, ``);
+      case flags.startsWith(`-r|`): return new RegExp(re.source, cleanupFlags(flags));
+      case flags === `-r`: return new RegExp(re.source);
       case flags.constructor === String && flags.length > 0:
         return new RegExp(re.source, cleanupFlags(flags, re.flags));
       default: return re;
