@@ -36,20 +36,26 @@ function RegExpFactory() {
   function getterTrap(regExp) {
     return {
       get(target, key) {
-        return Reflect.get(target, key) ?? Reflect.get(regExp, key)?.bind(regExp);
+        const fromTarget = Reflect.get(target, key);
+        const fromRE = Reflect.get(regExp, key);
+        switch(true) {
+          case !!fromTarget: return fromTarget;
+          case !!fromRE && fromRE.constructor === Function: return fromRE.bind(target.re);
+          default: return target.re[key]
+        }
       },
     };
   }
   
-  function cleanupFlags(flags) {
-    return flags.constructor === String && flags.length
-      ? flags.replace(/[^dgimsuvy]/g, ``)
-      : ``;
+  function cleanupFlags(flags, currentFlags) {
+    currentFlags = currentFlags ?? ``;
+    flags = currentFlags.concat(flags.constructor === String && flags.length ? flags : ``);
+    return [...new Set([...flags])].join(``).replace(/[^dgimsuvy]/g, ``);
   }
   
   function addFlags(flags, re) {
     if (flags.constructor === String && flags.length > 0) {
-      return new RegExp(re.source, re.flags + cleanupFlags(flags));
+      return new RegExp(re.source, cleanupFlags(flags, re.flags));
     }
     return re;
   }

@@ -22,11 +22,13 @@ const noCommentRE = $RE`
   // -------------------------------------------------------------------
   \/\*(?:[^*]|\*+[^*\/])*\*+\/ // multiline (/* ... */)
   |                            // or
-  (?<!:|\\\|')\/\/.*           // single line (// ...)`
-.flags(`gm`);
+  (?<!:|\\\|')\/\/.*           // single line (// ...)`;
+
 // noCommentRE => /\/\*(?:[^*]|\*+[^*\/])*\*+\/|(?<!:|\\\|')\/\/.*/gm
 
-const cleaned = "Hello world /* no comment */\nHello // no world".replace(noCommentRE, ``)
+const cleaned = "Hello world /* no comment */\nHello // no world"
+  .replace(noCommentRE.flags(`g`), ``)
+
 // cleaned => Hello world\nHello
 ```
 
