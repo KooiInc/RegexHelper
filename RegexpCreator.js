@@ -54,10 +54,12 @@ function RegExpFactory() {
   }
   
   function addFlags(flags, re) {
-    if (flags.constructor === String && flags.length > 0) {
-      return new RegExp(re.source, cleanupFlags(flags, re.flags));
+    switch(true) {
+      case flags === `-r`: return new RegExp(re.source, ``);
+      case flags.constructor === String && flags.length > 0:
+        return new RegExp(re.source, cleanupFlags(flags, re.flags));
+      default: return re;
     }
-    return re;
   }
   
   function cleanup(str) {

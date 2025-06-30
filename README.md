@@ -37,10 +37,17 @@ A `$RE`-instance is actually a [Proxy](https://developer.mozilla.org/en-US/docs/
 It can be used as a regular expression, but also contains a `flags` method and a getter (`re`) 
 for the actual regular expression value.
 
+The `[$RE instance].re` getter return the actual RegExp instance.
+
 Flags can be added using the instance `flags` method 
 `[$RE RegEx instance].flags([flags:string])` 
 or by adding an Array of flags as last replacement in the template string
 e.g. ```$RE`[ABZ].+ ${["g", "u"]}` ```.
+
+To ***remove*** all current flags, use `[$RE RegEx instance].flags("-r")`.
+
+The `flags` method is chainable. So `[$RE RegEx instance].flags("-r").flags("gm")` 
+removes current flags from the instance and re-adds `gm`.
 
 **Notes**
 - The replacement value must be the *last* replacement in the template string.
