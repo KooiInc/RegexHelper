@@ -32,6 +32,20 @@ const cleaned = "Hello world /* no comment */\nHello // no world"
 // cleaned => Hello world\nHello
 ```
 
+### escape
+The imported function (here `$RE`) has a static `escape` method to escape strings for 
+a regular expression. 
+
+It either uses the new (generally available) [RegExp.escape](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape) 
+or a proprietary escape method for older browsers.
+
+```javascript
+  $RE.escape(`Hello (world)`); // resuult => 
+  // using RegExp.escape: "\\x48ello\\x20\\(world\\)"
+  // using proprietary method: "\\Hello\\x20\\(world\\)";
+```
+
+
 ### flags
 A `$RE`-instance is actually a [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). 
 It can be used as a regular expression, but also contains a `flags` method and a getter (`re`) 

@@ -1,6 +1,10 @@
 export default RegExpFactory();
 
 function RegExpFactory() {
+  Object.defineProperties(creator, {
+    escape: { value: escape4RE, enumerable: true },
+  });
+  
   return creator;
   
   function creator(regExStr, ...args) {
@@ -48,7 +52,7 @@ function RegExpFactory() {
   }
   
   function cleanupFlags(flags, currentFlags) {
-    currentFlags = (currentFlags ?? ``).replace(/^-r\|/, ``);
+    currentFlags = (currentFlags ?? ``).replace(/^\-r\|/, ``);
     flags = currentFlags.concat(flags.constructor === String && flags.length ? flags : ``);
     return [...new Set([...flags])].join(``).replace(/[^dgimsuvy]/g, ``);
   }
@@ -60,6 +64,16 @@ function RegExpFactory() {
       case flags.constructor === String && flags.length > 0:
         return new RegExp(re.source, cleanupFlags(flags, re.flags));
       default: return re;
+    }
+  }
+  
+  function escape4RE(reString) {
+    switch(true) {
+      case !!RegExp.escape: return RegExp.escape(reString);
+      default:
+        const first = `\\${reString.at(0)}`;
+        return first + reString.slice(1)
+          .replace(/\p{S}|\p{P}/gu, a => `\\${a}`);
     }
   }
   
