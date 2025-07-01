@@ -73,7 +73,8 @@ function RegExpFactory() {
       default:
         const first = `\\${reString.at(0)}`;
         return first + reString.slice(1)
-          .replace(/\p{S}|\p{P}/gu, a => `\\${a}`);
+          .replace(/\p{S}|\p{P}/gu, a => `\\${a}`)
+          .replace(/ /g, `\\x20`);
     }
   }
   
