@@ -41,8 +41,8 @@ or a proprietary escape method for older browsers.
 
 ```javascript
   $RE.escape(`Hello (world)`); // result => 
-  // using RegExp.escape: "\\x48ello\\x20\\(world\\)"
-  // using proprietary method: "\\Hello\\x20\\(world\\)";
+  // using RegExp.escape: "\x48ello\x20\(world\\)"
+  // using proprietary method: "\Hello\x20\(world\)";
 ```
 
 
