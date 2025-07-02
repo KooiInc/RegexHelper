@@ -72,6 +72,7 @@ Replacing flags in the instance can be done using `[$RE RegEx instance].flags("-
 
 ### plain spaces
 To insert a plain space (so *not* a [whitespace](https://developer.mozilla.org/en-US/docs/Glossary/Whitespace)) use <!32>
+
 ```javascript
 const hiRE = $RE`
     Hello<!32> /* <= this will be a plain space in the result */ {1,} 
@@ -79,6 +80,16 @@ const hiRE = $RE`
 // hiRE => /Hello {1,}.*/gi 
 const hi = hiRE.test("hello    world!"); 
 // hi => true
+```
+
+Or use `$re.escape`
+```javascript
+const hiRE = $RE`
+    Hello${$re.escape(` `)} /* <= this will be a plain space in the result */ {1,} 
+    .*`.flags(`gi`);
+// hiRE => /Hello\x20{1,}.*/gi
+
+hiRE.test("hello    world!"); // => true
 ```
 
 For some examples see this [stackblitz project](https://stackblitz.com/edit/js-zneyk8?file=index.js)
