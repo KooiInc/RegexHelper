@@ -1,19 +1,21 @@
-Object.defineProperties(creator, {
-  escape: {value: escape4RE, enumerable: true},
-});
+Object.defineProperties(instanceCreator, {escape: {value: escape4RE, enumerable: true}});
 
-export default creator;
+export default instanceCreator;
 
-function creator(regExStr, ...args) {
+function instanceCreator(regExStr, ...args) {
   const {flags, cleanArgs} = maybeFlags(...args);
-  const initial = cleanArgs.length > 0
-    ? regExStr.raw.reduce((a, v, i) => a.concat(cleanArgs[i - 1] || ``).concat(v), ``)
-    : regExStr.raw.join(``);
-  
+  const initial = createIRegExpFromInput(regExStr, ...cleanArgs);
+
   return createInstance(new RegExp(
     initial.split(`\n`).map(line => cleanup(line)).join(``),
     flags
   ));
+}
+
+function createIRegExpFromInput(regExStr, ...cleanArgs) {
+  return cleanArgs.length > 0
+    ? regExStr.raw.reduce((a, v, i) => a.concat(cleanArgs[i - 1] || ``).concat(v), ``)
+    : regExStr.raw.join(``);
 }
 
 function maybeFlags(...args) {
@@ -45,15 +47,19 @@ function createInstance(regExp) {
   return instance;
 }
 
+function maybeProp(target, key, regExp) {
+  return {fromTarget: Reflect.get(target, key), fromInstance: Reflect.get(regExp, key)}
+}
+
 function getterTrap(regExp) {
   return {
     get(target, key) {
-      const fromTarget = Reflect.get(target, key);
-      const fromRE = Reflect.get(regExp, key);
+      const {fromTarget, fromInstance} = maybeProp(target, key, regExp);
+      
       switch (true) {
         case !!fromTarget: return fromTarget;
-        case !!fromRE && fromRE.constructor === Function:  return fromRE.bind(target.re);
-        default: return target.re[key];
+        case !!fromInstance && fromInstance.constructor === Function: return fromInstance.bind(target.re);
+        default: return regExp[key];
       }
     },
   };
@@ -76,8 +82,7 @@ function addFlags(flags, re) {
 
 function escape4RE(reString) {
   switch (true) {
-    case !!RegExp.escape:
-      return RegExp.escape(reString);
+    case !!RegExp.escape: return RegExp.escape(reString);
     default:
       const first = `\\${reString.at(0)}`;
       return first + reString.slice(1)
