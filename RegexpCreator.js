@@ -18,7 +18,7 @@ function maybeFlags(...args) {
   return { flags, cleanedArgs: hasLength(flags) ? args.slice(0, -1) : args };
 }
 
-function getFlags(maybeFlags) {  return Array.isArray(maybeFlags) ? maybeFlags.join(``) : ``; }
+function getFlags(maybeFlags) { return isOfType(maybeFlags, Array) ? maybeFlags.join(``) : ``; }
 
 function createInstance(regExp) {
   const instance = new Proxy(Object.defineProperties({}, {
@@ -48,7 +48,6 @@ function getterTrap(regExp) {
   return {
     get(target, key) {
       const {fromInstance, fromRegExpMethod} = maybeProp(target, key, regExp);
-      
       switch (true) {
         case !!fromInstance: return fromInstance;
         default: return fromRegExpMethod;
