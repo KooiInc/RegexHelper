@@ -1,6 +1,4 @@
-Object.defineProperties(instanceCreator, {escape: {value: escape4RE, enumerable: true}});
-
-export default instanceCreator;
+export default Object.defineProperties(instanceCreator, {escape: {value: escape4RE, enumerable: true}});
 
 function instanceCreator(regExStr, ...args) {
   const {flags, cleanedArgs} = maybeFlags(...args);
@@ -34,7 +32,7 @@ function createInstance(regExp) {
 
 function hasLength(variable) { return variable?.length > 0; }
 
-function isOfType(variable, CTOR) { return variable?.constructor === CTOR; }
+function isOfType(any, CTOR) { return any?.constructor === CTOR; }
 
 function maybeProp(target, key, regExp) {
   const fromRegExp = Reflect.get(regExp, key);
