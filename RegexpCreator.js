@@ -72,9 +72,9 @@ function addFlags(flags, re) {
 function escape4RE(reString) {
   switch (true) {
     case !!RegExp.escape: return RegExp.escape(reString);
-    default:  return `\\x${reString.at(0)}` +
-      reString.slice(1).replace(/\p{S}|\p{P}/gu, a => `\\${a}`).replace(/ /g, `\\x20`);
-  }
+    default:  return (`\\x${reString.at(0)}` +
+      reString.slice(1).replace(/\p{S}|\p{P}/gu, a => `\\${a}`))
+      .replace(/ |\\x /g, `\\x20`); }
 }
 
 function cleanup(str) {
