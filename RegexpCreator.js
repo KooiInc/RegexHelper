@@ -76,12 +76,12 @@ function modifyFlags(flags, regExp) {
   }
 }
 
-function escape4RE(reString) {
+function escape4RE(string2Escape) {
   switch (true) {
-    case reString?.constructor !== String || !hasLength(reString): return ``;
-    case !!RegExp.escape: return RegExp.escape(reString);
-    default:  return (`\\x${reString.at(0)}` +
-      reString.slice(1).replace(/\p{S}|\p{P}/gu, a => `\\${a}`))
+    case string2Escape?.constructor !== String || !hasLength(string2Escape): return ``;
+    case !!RegExp.escape: return RegExp.escape(string2Escape);
+    default:  return (`\\x${string2Escape.at(0)}` +
+      string2Escape.slice(1).replace(/\p{S}|\p{P}/gu, a => `\\${a}`))
       .replace(/ |\\x /g, `\\x20`); }
 }
 
