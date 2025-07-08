@@ -25,7 +25,7 @@ function createInstance(regExp) {
     re: { get() { return regExp; }, enumerable: false },
     toString: {value: () => regExp.toString(), enumerable: false},
     valueOf: {value: () => regExp, enumerable: false},
-    flags: { value(flags) { regExp = addFlags(flags, regExp); return instance; }, enumerable: false },
+    flags: { value(flags) { regExp = modifyFlags(flags, regExp); return instance; }, enumerable: false },
     clone: { get() { return clone(instance); }, enumerable: false },
   }), getterTrap(regExp) );
   return instance;
@@ -67,7 +67,7 @@ function cleanupFlags(flags, currentFlags) {
   return [...new Set([...flags])].join(``).replace(/[^dgimsuvy]/g, ``);
 }
 
-function addFlags(flags, regExp) {
+function modifyFlags(flags, regExp) {
   switch (true) {
     case !isOfType(flags, String) || !hasLength(flags): return regExp;
     case flags === `-r`: return regExp.compile(regExp.source);
