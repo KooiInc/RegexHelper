@@ -78,6 +78,7 @@ function modifyFlags(flags, regExp) {
 
 function escape4RE(reString) {
   switch (true) {
+    case reString?.constructor !== String || !hasLength(reString): return ``;
     case !!RegExp.escape: return RegExp.escape(reString);
     default:  return (`\\x${reString.at(0)}` +
       reString.slice(1).replace(/\p{S}|\p{P}/gu, a => `\\${a}`))
