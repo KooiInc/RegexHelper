@@ -1,7 +1,9 @@
 <div align="center">
-  <a href="https://bundlephobia.com/package/jsregexphelper@latest" rel="nofollow"
-    ><img src="https://badgen.net/bundlephobia/min/jsregexphelper"></a>
-  <a target="_blank" href="https://www.npmjs.com/package/jsregexphelper"
+  <!-- <a href="https://bundlephobia.com/package/jsregexphelper@latest" rel="nofollow"
+    ><img src="https://badgen.net/bundlephobia/min/jsregexphelper"></a> 
+    20250709: well, this doesn't seem to work anymore
+  -->
+  <a href="https://www.npmjs.com/package/jsregexphelper"
     ><img src="https://img.shields.io/npm/v/jsregexphelper.svg?labelColor=cb3837&logo=npm&color=dcfdd9"></a>
 </div>
 
