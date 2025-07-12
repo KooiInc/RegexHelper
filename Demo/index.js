@@ -1,5 +1,5 @@
 const {$, logFactory} = (await import("https://unpkg.com/stackblitzhelpers@latest/index.browser.bundled.js"));
-import $re from "../RegExpCreator.js";
+import $re from "../RegexpCreator.js";
 import style from "./DynamicStyling.js";
 const exampleCode = await fetchTemplates($);
 const {log: print} = logFactory(true);
