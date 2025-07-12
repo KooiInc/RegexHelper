@@ -136,7 +136,7 @@ function retrieveCodeResults() {
 
 function header() {
   style($);
-  print(`!!<p><a target="_blank" href="https://codeberg.org/KooiInc/RegexHelper">Module @<b>Codeberg.org</b></a></p>`);
+  print(`!!<p><a target="_top" href="https://codeberg.org/KooiInc/RegexHelper">repository @<b>Codeberg.org</b></a></p>`);
   print(`!!<p>
       Also used in <a target="_blank" href="https://codeberg.org/KooiInc/js-stringweaver">js-stringweaver</a>
       and <a target="_blank" href="https://github.com/KooiInc/SBHelpers">stackblitzhelpers</a>
