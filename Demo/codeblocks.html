@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dummy</title>
+</head>
+<body>
+<!-- code blocks for regexhelper demonstration -->
+<template id="re01">
+$re`
+  // -----------------------------------------------------------------------------------
+  // Used for cleanup of a stringified Function (/w spaces already removed).
+  // Used in https://stackblitz.com/edit/web-platform-jaxz82?file=CountArgumentsLib.js
+  // matches replaced with '' will result in a string without
+  // spaces and starting with the function parameter block
+  // -----------------------------------------------------------------------------------
+  ( ^[a-z_]( ?= ( =>|=>{ ) ) )                       // letter or underscore followd by fat arrow
+                                                     // and/or curly opening bracket
+  | ( ^\([^)].+\ )                                   // or anything between parenthesis
+  | ${$re.escape("()")} /*interpolated variable*/ )  // or consecutive parenthesis open and close
+  ( ?= ( =>|{ ) )                                    // followed by '=>' or '{'`
+.flags(`igm`);
+</template>
+
+<template id="re02">
+const hello = `hello`;
+$re`${hello}${String.raw`\s`}[Ww]+`.flags(`gi`);
+</template>
+
+<template id="re03">
+const hello = `hello`;
+$re`
+  ${hello}
+  // because all spaces are removed from the result, '&amp;lt;!32>'
+  // can be used to create a 'hard' space (' ') in the
+  // resulting Regex.
+  // Alternatively, one can use $re.escape(" ")
+  // (see next example)
+  &amp;lt;!32>
+  [Ww]+`
+.flags(`ig`);
+</template>
+
+<template id="re04">
+  $re`
+  [${$re.escape(` `)}] {1,} // thats all, bye
+  `.flags(`u`)
+</template>
+
+<template id="re05">
+$re`
+  ( ${$re.escape(`https://google.`)} )
+  .+
+  ${[`gi`]} /* <= flags as last tag (must be an array) */`;
+</template>
+
+<template id="re06">
+$re`
+  // loads of whitespace
+  ( ? <=N )( ? &amp;lt;matchNumber>d{3} )
+
+  | ( ? <= DSC )( ? &amp;lt;matchSeconds> /* second */ d{2} )
+
+  | ( ? <= MC )( ? &amp;lt;matchMinutes> /* minute */ d{2} )
+
+  | ( ? <= HC )( ? &amp;lt;matchHours> /*hour*/ d{2} ) |
+
+  ( ? <= DD )( ?&amp;lt;matchDay> /* day */ d{2} ) |
+
+  ( ? <= MD )( ?&amp;lt;matchMonth> /* monthg */ d{2} ) |
+
+  ( ? <= YD )( ?&amp;lt;matchYear> /* year */ d{2} | ( ? <= NOTHING )( ?&amp;lt;matchNoMatch> d{2} ) )
+
+  // append flags => ` .flags(`g`).flags(`u`);
+</template>
+
+<template id="re07">
+$re`^
+  [\p{L}]
+  [\p{L}_\.#\-\d+~|=!] +@
+  [\p{L}_\-]+\.
+  [\p{L}_\.\-] + $`
+.flags(`gui`);
+</template>
+
+<template id="re08">
+  $re`
+  ^[\p{L}]              //=> always start with a letter
+  [\p{L}_\.#\-\d+~=!]+  //=> followed by letters including _ . # - 0-9 ~ = or !
+  /* [etc...] */
+  {[...giu]}            //=> flags ([g]lobal, case [i]nsensitive, [u]nicode)`
+</template>
+<template id="re09">
+$re`
+  [a-z0-7${$re.escape(" ")}]
+  //        ^ that's a plain space
+  | whatever ${[`ig*&^`]}
+  //               ^ invalid flags are weeded out
+`;
+</template>
+<template id="re10">
+$re`
+  /* ------------------------------------------
+      this removes all comments from a string
+     ------------------------------------------ */
+  \/\*(?:[^*]|\*+[^*\/])*\*+\/ // multiline (/* ... */)
+  |                            // or
+  (?&amp;lt;!:|\\\|')\/\/.*    // single line (// ...)
+`.flags(`gm`);
+</template>
+<template id="re11">
+$re`
+  /* ------------------------------------
+      The previous may be simplified to:
+     ------------------------------------ */
+  /* multiline */ (?:\/\*[^*]+\*\/)
+  /* or */ |
+  /* single line */ \/\/.+$
+`.flags(`gm`);
+</template>
+</body>
+</html>
