@@ -7,6 +7,15 @@
     ><img src="https://img.shields.io/npm/v/jsregexphelper.svg?labelColor=cb3837&logo=npm&color=dcfdd9"></a>
 </div>
 
+> [!IMPORTANT]
+> This repository is moved to [Codeberg.org](https://codeberg.org/KooiInc/RegexHelper).
+>
+> For now it is kept in sync with the original repository @[Github](https://github.com/KooiInc/RegexHelper).
+>
+> Depending on future USA/Microsoft/Github policies the Github version maybe discontinued later.
+>
+> In other words, *starting july 12 2025 the Codeberg repository is ***authorative****.
+
 # RegexHelper
 A module to create JS regular expressions with comments and whitespace using a 
 [tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates)
