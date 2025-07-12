@@ -104,4 +104,4 @@ const hiRE = $RE`
 hiRE.test("hello    world!"); // => true
 ```
 
-For some examples see this [stackblitz project](https://stackblitz.com/edit/js-zneyk8?file=index.js)
+**[Demonstration/examples](https://kooiinc.codeberg.page/RegExHelper/Demo/)**.
