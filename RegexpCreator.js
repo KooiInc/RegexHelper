@@ -1,14 +1,13 @@
-// v1.1.9
+// v1.2.3
 export default Object.defineProperties(instanceCreator, {escape: {value: escape4RE, enumerable: true}});
 
 function instanceCreator(regExStr, ...args) {
   const {flags, cleanedArgs} = maybeFlags(...args);
-  const initial = createRegExpFromInput(regExStr, ...cleanedArgs);
-  
-  return createInstance(new RegExp(initial.split(`\n`).map(line => cleanup(line)).join(``), flags));
+  const initial = cleanup(createRegExpStringFromInput(regExStr, ...cleanedArgs));
+  return createInstance(new RegExp(initial.split(`\n`).map(line => line).join(``), flags));
 }
 
-function createRegExpFromInput(regExStr, ...cleanedArgs) {
+function createRegExpStringFromInput(regExStr, ...cleanedArgs) {
   return !hasLength(cleanedArgs) ? regExStr.raw.join(``) :
     regExStr.raw.reduce((a, v, i) => a.concat(cleanedArgs[i - 1] || ``).concat(v), ``);
 }
@@ -87,7 +86,7 @@ function escape4RE(string2Escape) {
 
 function cleanup(str) {
   return str
-    .replace(/\/\*[^*]+\*\/|\/\/.+$/gm, ``)
+    .replace(/(?<multi>\/\*[^*]+\*\/)|(?<single>\/\/.+$)/gm, ``)
     .replace(/\s/g, ``)
     .trim().replace(/<!([^>]\d+)>/g, (a, b) => String.fromCharCode(+b) ?? a);
 }
