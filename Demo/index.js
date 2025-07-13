@@ -2,7 +2,6 @@ const {$, logFactory} = (await import("https://unpkg.com/stackblitzhelpers@lates
 import $re from "../RegexpCreator.js";
 import style from "./DynamicStyling.js";
 const exampleCode = await fetchTemplates($);
-const results = {};
 const {log: print} = logFactory(true);
 
 header();

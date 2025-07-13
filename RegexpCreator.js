@@ -1,4 +1,3 @@
-// v1.2.3
 export default Object.defineProperties(instanceCreator, {escape: {value: escape4RE, enumerable: true}});
 
 function instanceCreator(regExStr, ...args) {
@@ -21,13 +20,19 @@ function maybeFlags(...args) {
 function getFlags(maybeFlags) { return isOfType(maybeFlags, Array) ? maybeFlags.join(``) : ``; }
 
 function createInstance(regExp) {
-  const instance = new Proxy( Object.defineProperties({}, {
+  const instance = {};
+  return new Proxy( Object.defineProperties(instance, {
     re: { get() { return regExp; }, enumerable: false },
     toString: {value: () => regExp.toString(), enumerable: false},
     valueOf: {value: () => regExp, enumerable: false},
-    flags: { value(flags) { regExp = modifyFlags(flags, regExp); return instance; }, enumerable: false },
+    flags: { value(flags) { return reFlag(flags, regExp, instance); }, enumerable: false },
     clone: { get() { return clone(instance); }, enumerable: false },
   }), getterTrap(regExp) );
+}
+
+function reFlag(flags, regExp, instance) {
+  // noinspection JSUnusedAssignment
+  regExp = modifyFlags(flags, regExp);
   return instance;
 }
 
@@ -67,7 +72,7 @@ function cleanupFlags(flags, currentFlags) {
   return [...new Set([...flags])].join(``).replace(/[^dgimsuvy]/g, ``);
 }
 
-function modifyFlags(flags, regExp) {
+function modifyFlags(flags, regExp, instance) {
   switch (true) {
     case !isOfType(flags, String) || !hasLength(flags): return regExp;
     case flags === `-r`: return regExp.compile(regExp.source);
