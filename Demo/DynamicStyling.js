@@ -38,8 +38,10 @@ function initStyling($) {
         color: green;
         font-size: 1.1rem;
         display: inline-block;
-        margin-right: 6px;
+        vertical-align: top;
+        margin: 0 6px 0 0;
       }
+      
       textarea {
         width: 96%;
         field-sizing: content;
@@ -155,7 +157,7 @@ function initStyling($) {
       margin-left: -3em;
     }`,
     `#log2screen li:last-child {
-      margin-bottom: 100vh;
+      margin-bottom: 5vh;
     }`,
     `details {
         summary { cursor: pointer; }

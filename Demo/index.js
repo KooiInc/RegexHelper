@@ -2,6 +2,7 @@ const {$, logFactory} = (await import("https://unpkg.com/stackblitzhelpers@lates
 import $re from "../RegexpCreator.js";
 import style from "./DynamicStyling.js";
 const exampleCode = await fetchTemplates($);
+const results = {};
 const {log: print} = logFactory(true);
 
 header();
@@ -18,7 +19,6 @@ function demo() {
   print(exampleCode.re08.codeblock, exampleCode.re08.result);
   print(exampleCode.re09.codeblock, exampleCode.re09.result);
   print(exampleCode.re10.codeblock, exampleCode.re10.result);
-  print(exampleCode.re11.codeblock, exampleCode.re11.result);
   
   hljs.highlightAll(`javascript`);
 }
@@ -36,13 +36,12 @@ function getCodeblocks(templates) {
   const codeResults = retrieveCodeResults();
   
   return [...exampleBlocks].reduce( (acc, block) => {
-    const result = stringifyRE4Display(String(codeResults[block.id]));
     return {
       ...acc,
       [block.id]: {
         codeblock: `<pre class="codebox"><code class="hljs language-javascript">${
           block.content.textContent.trim()}</code></pre>`,
-      result
+        result: stringifyRE4Display(codeResults[block.id]),
       }
     };
   }, {});
@@ -52,17 +51,15 @@ function retrieveCodeResults() {
   const hello = `hello`;
   return {
     re01: $re`
-      // -----------------------------------------------------------------------------------
-      // Used for cleanup of a stringified Function (/w spaces already removed).
-      // Used in https://stackblitz.com/edit/web-platform-jaxz82?file=CountArgumentsLib.js
-      // matches replaced with '' will result in a string without
-      // spaces and starting with the function parameter block
-      // -----------------------------------------------------------------------------------
-      ( ^[a-z_]( ?= ( =>|=>{ ) ) )                       // letter or underscore followd by fat arrow
-                                                         // and/or curly opening bracket
-      | ( ^\([^)].+\ )                                   // or anything between parenthesis
-      | ${$re.escape("()")} /*interpolated variable*/ )  // or consecutive parenthesis open and close
-      ( ?= ( =>|{ ) )                                    // followed by '=>' or '{'`
+      /* -----------------------------------------------------------------------------------
+          Used for cleanup of a stringified Function (/w spaces already removed).
+          Used in https://stackblitz.com/edit/web-platform-jaxz82?file=CountArgumentsLib.js
+       * ----------------------------------------------------------------------------------- */
+        ( ^[a-z_]( ?= ( =>|=>{ ) ) )                       /* letter or underscore followed by
+                                                              '=>' and/or '{' */
+        | ( ^\([^)].+\ )                                   // or anything between parenthesis
+        | ${$re.escape("()")} /*interpolated variable*/ )  // or consecutive ( and )
+        ( ?= ( =>|{ ) )                                    // followed by '=>' or '{'`
       .flags(`igm`),
     re02: $re`${hello}${String.raw`\s`}[Ww]+`.flags(`gi`),
     re03: $re`
@@ -123,26 +120,28 @@ function retrieveCodeResults() {
       |                            // or
       (?<!:|\\\|')\/\/.*           // single line (// ...)
     `.flags(`gm`),
-    re11: $re`
-      /* ------------------------------------
-          The previous may be simplified to:
-         ------------------------------------ */
-      /* multiline */ \/\*[^*]+\*\/
-      /* or */ |
-      /* single line */ \/\/.+$
-      `.flags(`gm`),
   }
 }
 
 function header() {
   style($);
-  print(`!!<p><a target="_top" href="https://codeberg.org/KooiInc/RegexHelper">repository @<b>Codeberg.org</b></a></p>`);
-  print(`!!<p>
-      Also used in <a target="_blank" href="https://codeberg.org/KooiInc/js-stringweaver">js-stringweaver</a>
-      and <a target="_blank" href="https://github.com/KooiInc/SBHelpers">stackblitzhelpers</a>
-    </p>`);
+  print(
+    $.p({data: {header: true}},
+      $.a( {
+        target:"_top",
+        href:"https://codeberg.org/KooiInc/RegexHelper",
+      }, `Codeberg.org`) )
+  );
+  print(
+    $.p({data: {header: true}},
+      `Also used in`,
+      $.a({target: "_blank", href: "https://codeberg.org/KooiInc/js-stringweaver", text: "js-stringweaver"}),
+      ` and `,
+      $.a({target: "_blank", href: "https://github.com/KooiInc/SBHelpers", text: "stackblitzhelpers"}),
+    )
+  );
 }
 
 function stringifyRE4Display(re) {
-  return $.div({class: "resultArea"}).append($.textarea({name: "result", disabled: "disabled"}, re)); //`<div class="resultArea"><textarea name="result" disabled>${re}</textarea></div>`;
+  return $.div({class: "resultArea"}).append($.textarea({name: "result", disabled: "disabled"}, re));
 }

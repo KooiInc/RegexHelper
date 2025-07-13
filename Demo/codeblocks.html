@@ -8,16 +8,14 @@
 <!-- code blocks for regexhelper demonstration -->
 <template id="re01">
 $re`
-  // -----------------------------------------------------------------------------------
-  // Used for cleanup of a stringified Function (/w spaces already removed).
-  // Used in https://stackblitz.com/edit/web-platform-jaxz82?file=CountArgumentsLib.js
-  // matches replaced with '' will result in a string without
-  // spaces and starting with the function parameter block
-  // -----------------------------------------------------------------------------------
-  ( ^[a-z_]( ?= ( =>|=>{ ) ) )                       // letter or underscore followd by fat arrow
-                                                     // and/or curly opening bracket
+  /* -----------------------------------------------------------------------------------
+      Used for cleanup of a stringified Function (/w spaces already removed).
+      Used in https://stackblitz.com/edit/web-platform-jaxz82?file=CountArgumentsLib.js
+     ----------------------------------------------------------------------------------- */
+  ( ^[a-z_]( ?= ( =>|=>{ ) ) )                       /* letter or underscore followed by
+                                                        '=>' and/or '{' */
   | ( ^\([^)].+\ )                                   // or anything between parenthesis
-  | ${$re.escape("()")} /*interpolated variable*/ )  // or consecutive parenthesis open and close
+  | ${$re.escape("()")} /*interpolated variable*/ )  // or consecutive ( and )
   ( ?= ( =>|{ ) )                                    // followed by '=>' or '{'`
 .flags(`igm`);
 </template>
@@ -90,6 +88,7 @@ $re`^
   /* [etc...] */
   {[...giu]}            //=> flags ([g]lobal, case [i]nsensitive, [u]nicode)`
 </template>
+
 <template id="re09">
 $re`
   [a-z0-7${$re.escape(" ")}]
@@ -98,25 +97,17 @@ $re`
   //               ^ invalid flags are weeded out
 `;
 </template>
+
 <template id="re10">
 $re`
-  /* ------------------------------------------
-      this removes all comments from a string
-     ------------------------------------------ */
+  /* ---------------------------------------------------------------------
+      this finds all ES comments (/*...*/, //...) in a (multiline) string
+     --------------------------------------------------------------------- */
   \/\*(?:[^*]|\*+[^*\/])*\*+\/ // multiline (/* ... */)
   |                            // or
-  (?&amp;lt;!:|\\\|')\/\/.*    // single line (// ...)
+  (?&amp;lt;!:|\\\|')\/\/.*           // single line (// ...)
 `.flags(`gm`);
 </template>
-<template id="re11">
-$re`
-  /* ------------------------------------
-      The previous may be simplified to:
-     ------------------------------------ */
-  /* multiline */ (?:\/\*[^*]+\*\/)
-  /* or */ |
-  /* single line */ \/\/.+$
-`.flags(`gm`);
-</template>
+
 </body>
 </html>
