@@ -3,8 +3,9 @@ export default Object.defineProperties(instanceCreator, {escape: {value: escape4
 
 function instanceCreator(regExStr, ...args) {
   const {flags, cleanedArgs} = maybeFlags(...args);
-  const initial = cleanup(createRegExpStringFromInput(regExStr, ...cleanedArgs));
-  return createInstance(new RegExp(initial.split(`\n`).map(line => line).join(``), flags));
+  return createInstance(
+    new RegExp(cleanup(createRegExpStringFromInput(regExStr, ...cleanedArgs)), flags)
+  );
 }
 
 function createRegExpStringFromInput(regExStr, ...cleanedArgs) {
@@ -86,7 +87,7 @@ function escape4RE(string2Escape) {
 
 function cleanup(str) {
   return str
-    .replace(/(?<multi>\/\*[^*]+\*\/)|(?<single>\/\/.+$)/gm, ``)
+    .replace(/\/\*(?:[^*]|\*+[^*\/])*\*+\/|(?<!:|\\\|')\/\/.*/gm, ``)
     .replace(/\s/g, ``)
     .trim().replace(/<!([^>]\d+)>/g, (a, b) => String.fromCharCode(+b) ?? a);
 }
