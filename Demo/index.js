@@ -280,7 +280,7 @@ function header() {
           href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
           text: "Proxy"}),
           ` for an ES regular expression object. This means the result can be used straightforward
-           as an ES regular expression (except for the <code>flags</code> property), see 'Usage examples').`
+           as an ES regular expression (except for the <code>flags</code> property, see 'Usage examples').`
       ),
       $.div({class: `b5`},
         $.h3({class: "head between"}, `Flags`),
