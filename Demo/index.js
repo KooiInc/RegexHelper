@@ -2,12 +2,14 @@ const {$, logFactory} = (await import("https://unpkg.com/stackblitzhelpers@lates
 import $re from "../RegexpCreator.js";
 import style from "./DynamicStyling.js";
 const exampleCode = await fetchTemplates($);
+const usageResults = retrieveUsageResults();
 const {log: print} = logFactory(true);
-
-header();
+const asHeader = {data: {header: true}};
 demo();
 
 function demo() {
+  header();
+
   print(exampleCode.re01.codeblock, exampleCode.re01.result);
   print(exampleCode.re02.codeblock, exampleCode.re02.result);
   print(exampleCode.re03.codeblock, exampleCode.re03.result);
@@ -18,8 +20,94 @@ function demo() {
   print(exampleCode.re08.codeblock, exampleCode.re08.result);
   print(exampleCode.re09.codeblock, exampleCode.re09.result);
   print(exampleCode.re10.codeblock, exampleCode.re10.result);
-  
+
+  printUsageExamples();
+
   hljs.highlightAll(`javascript`);
+}
+
+function printUsageExamples() {
+  print($.h2({class: "head"}, `Usage examples`),
+    $.div({class: `b5`}, `Some <code>$re</code> usage examples`));
+
+  print(exampleCode.use01.codeblock);
+
+  print(
+    $.div({class: "b5"},
+      $.code(`someStringWithComments.match(commentsRE)`),
+      $.div({class: "useResult"}, usageResults.use01)
+    )
+  );
+
+  print(
+    $.div({class: "b5"},
+      $.code(`someStringWithComments.replace(commentsRE, '')`),
+      $.div({class: "useResult"}, usageResults.use02)
+    )
+  );
+
+  print(
+    $.div({class: "b5"},
+      $.code(`someStringWithComments<b class="red">.flags("-r")</b>.replace(commentsRE, '')`),
+      $.div({class: "useResult"}, usageResults.use02a)
+    )
+  );
+
+  print(
+    $.div({class: "b5"},
+      $.code(`someStringWithComments<b class="red">.flags("-r|i")</b>.replace(commentsRE, '')`),
+      $.div({class: "useResult"}, usageResults.use02b)
+    )
+  );
+
+  print(
+    $.div({class: "b5"},
+      $.code(`commentsRE.exec(someStringWithComments)`),
+      $.div({class: "useResult"}, usageResults.use03)
+    )
+  );
+
+  print(
+    $.div({class: "b5"},
+      $.code(`commentsRE.test(someStringWithComments)`),
+      $.div({class: "useResult"}, usageResults.use04)
+    )
+  );
+
+  print(
+    $.div({class: "b5"},
+      $.code(`commentsRE.test("no comments")`),
+      $.div({class: "useResult"}, usageResults.use05)
+    )
+  );
+
+  print(
+    $.div({class: "b5"},
+      $.code(`someStringWithComments.split(commentsRE)`),
+      $.div({class: "useResult"}, usageResults.use06)
+    )
+  );
+
+  print(
+    $.div({class: "b5"},
+      $.code(`commentsRE.dotAll`),
+      $.div({class: "useResult"}, usageResults.use07)
+    )
+  );
+
+  print(
+    $.div({class: "b5"},
+      $.code(`commentsRE.flags("s").dotAll`),
+      $.div({class: "useResult"}, `${usageResults.use08}`)
+    )
+  );
+
+  print(
+    $.div({class: "b5"},
+      $.code(`commentsRE.source`),
+      $.div({class: "useResult"}, `${usageResults.use09}`)
+    )
+  );
 }
 
 async function fetchTemplates($) {
@@ -33,7 +121,7 @@ async function fetchTemplates($) {
 function getCodeblocks(templates) {
   const exampleBlocks = templates.find(`template[id]`);
   const codeResults = retrieveCodeResults();
-  
+
   return [...exampleBlocks].reduce( (acc, block) => {
     return {
       ...acc,
@@ -44,6 +132,39 @@ function getCodeblocks(templates) {
       }
     };
   }, {});
+}
+
+function retrieveUsageResults() {
+  const commentsRE = () => $re`
+      /* ------------------------------------------
+          this removes all comments from a string
+         ------------------------------------------ */
+      \/\*(?:[^*]|\*+[^*\/])*\*+\/ // multiline (/* ... */)
+      |                            // or
+      (?<!:|\\\|')\/\/.*           // single line (// ...)
+    `.flags(`gm`);
+  const someStringWithComments = `
+    /* this is an example string with comments */
+    Hello /* comment in between */ world!
+    // that's it folks
+  `;
+  const execRE = commentsRE();
+  const executed = execRE.exec(someStringWithComments);
+  return {
+    use01: `[${someStringWithComments.match(commentsRE()).join(', ')}]`,
+    use02: someStringWithComments.replace(commentsRE(), ''),
+    use02a: someStringWithComments.replace(commentsRE().flags(`-r`), ''),
+    use02b: someStringWithComments.replace(commentsRE().flags(`-r|i`), ''),
+    use03: `[${executed}] (<code>commentsRE.lastIndex</code>: ${execRE.lastIndex})`,
+    use04: `${commentsRE().test(someStringWithComments)}`,
+    use05: `${commentsRE().test(`no comments`)}`,
+    use06: JSON.stringify(someStringWithComments.split(commentsRE())),
+    use07: commentsRE().dotAll,
+    use08: `${commentsRE().flags(`s`).dotAll}
+      (<code>commentsRE<b class="red">.re</b>.flags</code>: "${
+        commentsRE().flags(`s`).re.flags}) }")`,
+    use09: `${commentsRE().source}`
+  }
 }
 
 function retrieveCodeResults() {
@@ -125,20 +246,65 @@ function retrieveCodeResults() {
 function header() {
   style($);
   print(
-    $.p({data: {header: true}},
+    $.p(asHeader,
       $.a( {
         target:"_top",
         href:"https://codeberg.org/KooiInc/RegexHelper",
       }, `Codeberg.org`) )
   );
   print(
-    $.p({data: {header: true}},
+    $.p(asHeader,
       `Also used in`,
       $.a({target: "_blank", href: "https://codeberg.org/KooiInc/js-stringweaver", text: "js-stringweaver"}),
       ` and `,
       $.a({target: "_blank", href: "https://github.com/KooiInc/SBHelpers", text: "stackblitzhelpers"}),
     )
   );
+
+  print($.h2({class: "head"}, `RegexHelper`),
+    $.div({class: `b5`}, `This module delivers a 'constructor' to create
+      Regular Expressions from a multiline string with comments.`),
+    $.div({class: `b5`}, `The constructor is here imported as <code>$re</code>.
+      <code>$re</code> is actually a `,
+        $.a({
+          target: "_blank",
+          href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates",
+          text: "tagged template"}),
+        ` [function] and can <i>only</i> be called as such (so <code>$re\`[regexp string]\`</code> and <i>not</i>
+            <code>$re(\`[regexp string]\`</code>).`
+      ),
+      $.div({class: `b5`}, `The constructor result is actually a `,
+        $.a({
+          target: "_blank",
+          href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+          text: "Proxy"}),
+          ` for an ES regular expression object. This means the result can be used straightforward
+           as an ES regular expression (except for the <code>flags</code> property), see 'Usage examples').`
+      ),
+      $.div({class: `b5`},
+        $.h3({class: "head between"}, `Flags`),
+        $.div({class: `b5`}, `Flags can be added using the instance flags method
+          <code>[$re instance].flags(flags:string)</code> or (legacy) by adding an Array of
+          flag strings as last replacement in the template string e.g.
+          <code>$re\`[ABZ].+ \${[..."gu"]}\`</code>.`),
+        $.div({class: `b5`},
+          `To <b>remove</b> all flags use <code>[$re instance].flags(<b class="red">"-r"</b>)</code>`),
+        $.div({class: `b5`},
+          `To <b>replace</b> all flags use <code>[$re instance].flags(<b class="red">"-r|[replacements]"</b>)</code>.`),
+        $.div({class: `b5`}, `<b class="red">Note</b>: flags are cleaned upon creation.`)
+      ),
+      $.div({class: `b5`},
+        $.h3({class: "head between"}, `The instance value`),
+        $.div({class: `b5`}, `The instance value (so the actual <code>RegExp</code> value) can be retrieved
+          using either <code>[$re instance].re</code> or <code>[$re instance].valueOf()</code>.`),
+        $.div({class: `b5`}, `<code>String([$re instance].re</code>), <code>[$re instance].toString()</code>
+          or <code>\`\${[$re instance]}\`</code>) delivers the stringified actual <code>RegExp</code> value.`),
+      )
+    );
+
+  print($.h2({class: "head"}, `Constructor examples`),
+    $.div({class: `b5`}, `Some instance creation examples
+        using the imported <code>$re</code> constructor.`));
 }
 
 function stringifyRE4Display(re) {

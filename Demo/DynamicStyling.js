@@ -96,8 +96,9 @@ function initStyling($) {
     `code:not(.codeblock, .hljs) {
         background-color: rgb(227, 230, 232);
         color: var(--code-color);
-        padding: 0 4px;
+        padding: 1px 2px;
         display: inline-block;
+        margin: 1px 0;
         border-radius: 4px;
         font-style: normal;
         font-weight: normal;
@@ -128,7 +129,10 @@ function initStyling($) {
         }
        }
      }`,
-    `.b5 { margin-bottom: 0.5rem; }`,
+    `.b5 {
+      margin-bottom: 0.5rem;
+      font: normal 14px verdana, arial, sans-serif;
+     }`,
     `h1.head, h2.head, h3.head {
       color: var(--grey-default);
       font-family: system-ui, sans-serif;
@@ -182,6 +186,18 @@ function initStyling($) {
           }
         }
       }
+    }`,
+    `.useResult {
+      &:before {
+        content: " ➥ ";
+        font-weight: bold;
+        color: green;
+        font-size: 1.1rem;
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 6px 0 0;
+      }
+      margin: 5px 0 5px 0;
     }`,
     `details.in-content:not(:open) + .chapterContent {
       position: absolute;

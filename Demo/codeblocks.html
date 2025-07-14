@@ -109,5 +109,21 @@ $re`
 `.flags(`gm`);
 </template>
 
+<template id="use01">
+const commentsRE = $re`
+  /* ------------------------------------------
+  this removes all comments from a string
+  ------------------------------------------ */
+  \/\*(?:[^*]|\*+[^*\/])*\*+\/ // multiline (/* ... */)
+  |                            // or
+  (?&amp;lt;!:|\\\|')\/\/.*           // single line (// ...)
+  `.flags(`gm`);
+const someStringWithComments = `
+  /* this is an example string with comments */
+  Hello /* comment inbetween */ world! // comment after
+  // that's it folks!
+`;
+</template>
+
 </body>
 </html>
