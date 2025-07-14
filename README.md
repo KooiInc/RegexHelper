@@ -97,7 +97,7 @@ const hi = hiRE.test("hello    world!");
 Or use `$re.escape`
 ```javascript
 const hiRE = $RE`
-    Hello${$re.escape(` `)} /* <= this will be a plain space in the result */ {1,} 
+    Hello${$re.escape(` `)} /* <= this will be \x20 in the result */ {1,} 
     .*`.flags(`gi`);
 // hiRE => /Hello\x20{1,}.*/gi
 

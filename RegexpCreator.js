@@ -20,19 +20,14 @@ function maybeFlags(...args) {
 function getFlags(maybeFlags) { return isOfType(maybeFlags, Array) ? maybeFlags.join(``) : ``; }
 
 function createInstance(regExp) {
-  const instance = {};
-  return new Proxy( Object.defineProperties(instance, {
+  const instance = new Proxy( Object.defineProperties({}, {
     re: { get() { return regExp; }, enumerable: false },
     toString: {value: () => regExp.toString(), enumerable: false},
     valueOf: {value: () => regExp, enumerable: false},
-    flags: { value(flags) { return reFlag(flags, regExp, instance); }, enumerable: false },
+    flags: { value(flags) { regExp = modifyFlags(flags, regExp); return instance; }, enumerable: false },
     clone: { get() { return clone(instance); }, enumerable: false },
   }), getterTrap(regExp) );
-}
-
-function reFlag(flags, regExp, instance) {
-  // noinspection JSUnusedAssignment
-  regExp = modifyFlags(flags, regExp);
+  
   return instance;
 }
 
@@ -44,7 +39,7 @@ function maybeProp(target, key, regExp) {
   const fromRegExp = Reflect.get(regExp, key);
   return {
     fromInstance: Reflect.get(target, key),
-    fromRegExpMethod: isOfType(fromRegExp, Function) ? fromRegExp.bind(regExp) : regExp[key]
+    fromRegExpMethod: isOfType(fromRegExp, Function) ? fromRegExp.bind(target.re) : target.re[key]
   }
 }
 
@@ -72,12 +67,12 @@ function cleanupFlags(flags, currentFlags) {
   return [...new Set([...flags])].join(``).replace(/[^dgimsuvy]/g, ``);
 }
 
-function modifyFlags(flags, regExp, instance) {
+function modifyFlags(flags, regExp) {
   switch (true) {
     case !isOfType(flags, String) || !hasLength(flags): return regExp;
-    case flags === `-r`: return regExp.compile(regExp.source);
-    case flags.startsWith(`-r|`): return regExp.compile(regExp.source, cleanupFlags(flags));
-    default: return regExp.compile(regExp.source, cleanupFlags(regExp.flags, flags));
+    case flags === `-r`: return regExp = new RegExp(regExp.source);
+    case flags.startsWith(`-r|`): return regExp = new RegExp(regExp.source, cleanupFlags(flags));
+    default: return regExp = new RegExp(regExp.source, cleanupFlags(regExp.flags, flags));
   }
 }
 
