@@ -4,7 +4,7 @@ function initStyling($) {
   $.fn("showOnTop", me => {
     return window.scroll({ top: document.body.scrollTop + me.dimensions.y - 10, });
   });
-  
+
   // style rules are stored in the JQL style element (head)style#JQLStylesheet
   $.editCssRules(
     `:root {
@@ -194,7 +194,6 @@ function initStyling($) {
         color: green;
         font-size: 1.1rem;
         display: inline-block;
-        vertical-align: top;
         margin: 0 6px 0 0;
       }
       margin: 5px 0 5px 0;
