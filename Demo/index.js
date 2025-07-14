@@ -270,8 +270,9 @@ function header() {
           target: "_blank",
           href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates",
           text: "tagged template"}),
-        ` [function] and can <i>only</i> be called as such (so <code>$re\`[regexp string]\`</code> and <i>not</i>
-            <code>$re(\`[regexp string]\`</code>).`
+        ` [function] and can <i class="red">only</i> be called as such (so <code>$re\`[regexp string]\`</code> and 
+            <i class="red">not</i>
+            <code><b class="red">$re(\`[regexp string]\`</b></code>).`
       ),
       $.div({class: `b5`}, `The constructor result is actually a `,
         $.a({
@@ -285,7 +286,7 @@ function header() {
         $.h3({class: "head between"}, `Flags`),
         $.div({class: `b5`}, `Flags can be added using the instance flags method
           <code>[$re instance].flags(flags:string)</code> or (legacy) by adding an Array of
-          flag strings as last replacement in the template string e.g.
+          flag strings as <i class="red">last</i> replacement in the template string e.g.
           <code>$re\`[ABZ].+ \${[..."gu"]}\`</code>.`),
         $.div({class: `b5`},
           `To <b>remove</b> all flags use <code>[$re instance].flags(<b class="red">"-r"</b>)</code>`),
