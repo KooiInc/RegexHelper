@@ -272,9 +272,9 @@ function header() {
           text: "tagged template"}),
         ` [function] and can <i class="red">only</i> be called as such (so <code>$re\`[regexp string]\`</code> and 
             <i class="red">not</i>
-            <code><b class="red">$re(\`[regexp string]\`</b></code>).`
+            <code>$re<b class="red">(</b>\`[regexp string]\`<b class="red">)</b></code>).`
       ),
-      $.div({class: `b5`}, `The constructor result is actually a `,
+      $.div({class: `b5`}, `The constructor result (an $re instance) is actually a `,
         $.a({
           target: "_blank",
           href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
