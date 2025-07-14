@@ -20,6 +20,8 @@
 A module to create JS regular expressions with comments and whitespace using a 
 [tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates)
 
+**[Demonstration/examples](https://kooiinc.codeberg.page/RegExHelper/Demo/)**.
+
 ## Import
 ```javascript
 import $RE from "[location of RegexpCreator.js]";
@@ -103,5 +105,3 @@ const hiRE = $RE`
 
 hiRE.test("hello    world!"); // => true
 ```
-
-**[Demonstration/examples](https://kooiinc.codeberg.page/RegExHelper/Demo/)**.
