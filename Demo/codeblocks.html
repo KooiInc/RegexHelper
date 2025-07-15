@@ -111,9 +111,9 @@ $re`
 
 <template id="use01">
 const commentsRE = $re`
-  /* ------------------------------------------
-  this removes all comments from a string
-  ------------------------------------------ */
+  /* --------------------------------------------
+      This RegExp finds all comments in a string
+     -------------------------------------------- */
   \/\*(?:[^*]|\*+[^*\/])*\*+\/ // multiline (/* ... */)
   |                            // or
   (?&amp;lt;!:|\\\|')\/\/.*           // single line (// ...)
