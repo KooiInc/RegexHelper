@@ -284,7 +284,7 @@ function header() {
       ),
       $.div({class: `b5`},
         $.h3({class: "head between"}, `Flags`),
-        $.div({class: `b5`}, `Flags can be added using the instance flags method
+        $.div({class: `b5`}, `Flags can be added/removed/replaced using the instance flags method
           <code>[$re instance].flags(flags:string)</code> or (legacy) by adding an Array of
           flag strings as <i class="red">last</i> replacement in the template string e.g.
           <code>$re\`[ABZ].+ \${[..."gu"]}\`</code>.`),
